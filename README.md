@@ -8,7 +8,7 @@ This project was originally created as a data source for a Jive [demonstration p
 ## Usage
 * Rename 'sample-config.js' to 'config.js' or obtain the decryption key for the Makefile.
 * Register with [GeoNames](http://www.geonames.org/) and [Weather Underground](http://www.wunderground.com/weather/api/). Update config.js with your keys.
-* Search a single location: http://YOURDOMAINHERE.com/location?q=Minneapolis
+* Search a single location: http://localhost:8083/location?q=Minneapolis
 * Search more than one location (use the '|' delimiter): http://localhost:8083/location?q=Minneapolis|New%20York|London
 
 ## Services
