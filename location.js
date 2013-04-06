@@ -7,14 +7,15 @@ if (!fs.existsSync("config.js")) {
 	console.error("Either rename sample-config.js and populate with your settings, or run 'make decrypt_conf'.");
 	process.exit(1);
 }
-var c = require('./config'); 
 
+var c = require('./config'); 
 var journey = require('./lib/journey');  // Init REST route library
 var async = require('./lib/async');
 
 var models = require('./models/location');
 var geonames = require('./controllers/geonames');
 var wunderground = require('./controllers/wunderground');
+var forecast = require('./controllers/forecast');
 
 
 // Configure routes for the RESTful interface
@@ -55,10 +56,13 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 			} else {
 				// Successfully receive location information from GeoNames. 
 				locData = results;
-						
+				
+				// Determine which weather data provide to use. 
+				var weather = (params.source && params.source.toLowerCase() == 'forecast') ? forecast : wunderground;
+				
 				// At this point we should have an array of locations populated. 
-				// Now, retrieve weather details from Weather Underground. 
-				wunderground.getWeatherDetails(locData, function(err, results) {
+				// Now, retrieve weather details. 
+				weather.getForecast(locData, function(err, results) {
 					if (err) {
 						response.isSuccessful = false;
 						response.message = 'Encountered error: {0}.'.format(err);			
@@ -73,14 +77,11 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 					response.message = 'Successfully found results for {0}.'.format(params.q);			
 					res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
 				});
-
 			}
 		});
 		
 	}
 });
-
-
 
 // Instantiate the HTTP server
 http.createServer(function (request, response) {
@@ -97,6 +98,21 @@ http.createServer(function (request, response) {
 }).listen(8083);
 
 
+function packageResponse(err, results, response) {
+	if (err) {
+		response.isSuccessful = false;
+		response.message = 'Encountered error: {0}.'.format(err);			
+		res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
+	} else {
+		// Successfully retrieved/populated weather information from Weather Underground. 
+		locData = results;
+	}
+
+	// Wrap the response data. 
+	response.data = { 'locations' : locData }
+	response.message = 'Successfully found results for {0}.'.format(params.q);			
+	res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
+}
 
 
 // Utility functions

@@ -33,6 +33,7 @@ exports.weather = function() {
 	var obj = {
 		conditions : null, 
 		iconURL : null, 
+		icon : null,
 		tempF : null, 
 		tempC : null, 
 		tempDescription : null, 
@@ -40,7 +41,9 @@ exports.weather = function() {
 		windMPH : null, 
 		windDirection : null, 
 		windDescription : null, 
-		url : null
+		url : null,
+		dataProvider : null,
+		dataProviderUrl : null
 	};
 	
 	return obj;
