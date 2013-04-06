@@ -9,13 +9,13 @@ var c = require('../config');  // App configuration
 
 this.getForecast = function(locations, callback) {
 	
-	// Builds a function that handles the request to Weather Undergound API. 
+	// Builds a function that handles the request to Forecast.io API. 
 	function addReq(loc) {
 
 		// The actual function to return. 
 		return function(callback) { 
 			
-			// Define options for HTTP request to Weather Underground API.
+			// Define options for HTTP request to Forecast.io API.
 			var options = { 
 				host: 'api.forecast.io', 
 				path: '/forecast/{0}/{1},{2}'
@@ -26,13 +26,13 @@ this.getForecast = function(locations, callback) {
 			// Using node-cache: https://github.com/ptarjan/node-cache
 			var data = cache.get(options.path);  // Using the URL path as a key, check if cached response already exists. 
 			if (data) {
-				callback(null, data);  // We already have a cached response for this request, use it instead of hitting the Wunderground API again. 
+				callback(null, data);  // We already have a cached response for this request, use it instead of hitting the Forecast.io API again. 
 			} else {
 				// No cached response exists, hit the Forecast.io API. 
 				var json = '';  // String to build up API response
 				https.get(options, function(res) { 
 					
-					// Handler for each chunk of data in the response from the Wunderground API
+					// Handler for each chunk of data in the response from the Forecast.io API
 					res.on('data', function (chunk) { 
 						json += chunk;  // Append this chunk
 					});

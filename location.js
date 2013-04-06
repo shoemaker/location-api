@@ -35,9 +35,8 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 	
 	// Check if locations were provided
 	if (!params.q || params.q.length == 0) {
-		response.isSuccessful = false;
-		response.message = 'No locations to search were provided. Use the \'q\' querystring parameter (example: q=Minneapolis,%20MN).';
-		res.send(200, {}, response);
+		var message = 'No locations to search were provided. Use the \'q\' querystring parameter (example: q=Minneapolis,%20MN).';
+		packageResponse(null, message, null, params, res);
 	} else {
 		// We have one or more locations, proceed. 
 		// Parse out the list of locations
@@ -50,9 +49,8 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 		// Request location data
 		geonames.getLocationDetails(queries, function(err, results) {
 			if (err) {
-				response.isSuccessful = false;
-				response.message = 'Encountered error: {0}.'.format(err);			
-				res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
+				var message = 'Encountered error: {0}.'.format(err);
+				packageResponse(err, message, data, params, res);
 			} else {
 				// Successfully receive location information from GeoNames. 
 				locData = results;
@@ -65,17 +63,15 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 				weather.getForecast(locData, function(err, results) {
 					if (err) {
 						response.isSuccessful = false;
-						response.message = 'Encountered error: {0}.'.format(err);			
-						res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
+						var message = 'Encountered error: {0}.'.format(err);			
+						packageResponse(err, message, data, params, res);
 					} else {
 						// Successfully retrieved/populated weather information from Weather Underground. 
 						locData = results;
 					}
 
-					// Wrap the response data. 
-					response.data = { 'locations' : locData }
-					response.message = 'Successfully found results for {0}.'.format(params.q);			
-					res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
+					var message = 'Successfully found results for {0}.'.format(params.q);
+					packageResponse(null, message, { 'locations' : locData }, params, res);
 				});
 			}
 		});
@@ -98,20 +94,35 @@ http.createServer(function (request, response) {
 }).listen(8083);
 
 
-function packageResponse(err, results, response) {
-	if (err) {
-		response.isSuccessful = false;
-		response.message = 'Encountered error: {0}.'.format(err);			
-		res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
+// Generic handler for API responses. 
+function packageResponse(err, message, data, params, res) {
+	var response = models.wrapper();
+	response.isSuccessful = (err) ? false : true;
+	response.message = message;	
+	response.data = data;	
+	
+	var headers = {};
+	
+	// Massage the response if the response is to be JSONP
+	if (params.callback && params.callback.length > 0) {
+		var headers = {
+			'Access-Control-Allow-Origin' : '*',
+			'Content-Type' : 'text/javascript'
+		};		
+		response = JSON.stringify(response);
+		response = 'if({0}){1}({2});'.format(params.callback, params.callback, response);
 	} else {
-		// Successfully retrieved/populated weather information from Weather Underground. 
-		locData = results;
+		var headers = {
+			'Access-Control-Allow-Origin' : '*',
+			'Content-Type' : 'applications/json'
+		};
 	}
-
-	// Wrap the response data. 
-	response.data = { 'locations' : locData }
-	response.message = 'Successfully found results for {0}.'.format(params.q);			
-	res.send(200, { 'Access-Control-Allow-Origin' : '*' }, response);
+	
+	if (err) {
+		res.send(500, headers, response);
+	} else {
+		res.send(200, headers, response);
+	}
 }
 
 
