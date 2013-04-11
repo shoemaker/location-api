@@ -42,10 +42,17 @@ this.getLocationDetails = function(locations, callback) {
 					
 					// Handler once the request to the GeoNames API is complete. 
 					res.on('end', function() { 
-						var data = JSON.parse(json);  // Turn the string into an object. 
-						// cache.put(options.path, data, c.config.cacheDuration);  // Put this response in cache in case we need it later. 
-						cache.put(options.path, data);  // This data doesn't change, don't set the cache to expire.
-						callback(null, data);
+						var err;
+						try {
+							var data = JSON.parse(json);  // Turn the string into an object. 
+							// cache.put(options.path, data, c.config.cacheDuration);  // Put this response in cache in case we need it later. 
+							cache.put(options.path, data);  // This data doesn't change, don't set the cache to expire.
+						} catch(ex) {
+							console.log("Encountered error: " + ex.message);
+							err = ex;
+						} finally {
+							callback(err, data);
+						}							
 					});
 				}).on('error', function(err) {
 					console.log("Encountered error: " + err.message);
@@ -66,28 +73,32 @@ this.getLocationDetails = function(locations, callback) {
 	// Make Parallel requests to GeoNames API. 
 	// Using async library: https://github.com/caolan/async
 	async.parallel(reqQueue, function(err, results) {
-		// Results received from the series of GeoNames API requests.
-		// Populate location object(s)
-		if (results[0].totalResultsCount > 0) {
-			for (var ii=0; ii<results.length; ii++) {
-				var currLocation = results[ii].geonames[0];
-			
-				// Populate a new location object. 
-				var newLocation = models.location();
-					
-				newLocation.latitude = currLocation.lat;
-				newLocation.longitude = currLocation.lng;
-				newLocation.city = currLocation.toponymName;
-				newLocation.state = currLocation.adminName1;
-				newLocation.stateCode = currLocation.adminCode1;
-				newLocation.country = currLocation.countryName;
-				newLocation.countryCode = currLocation.countryCode;
-				newLocation.population = currLocation.population;
-			
-				locResults.push(newLocation);
+		if (err) {
+			callback(err, null);
+		} else {		
+			// Results received from the series of GeoNames API requests.
+			// Populate location object(s)
+			if (results[0].totalResultsCount > 0) {
+				for (var ii=0; ii<results.length; ii++) {
+					var currLocation = results[ii].geonames[0];
+				
+					// Populate a new location object. 
+					var newLocation = models.location();
+						
+					newLocation.latitude = currLocation.lat;
+					newLocation.longitude = currLocation.lng;
+					newLocation.city = currLocation.toponymName;
+					newLocation.state = currLocation.adminName1;
+					newLocation.stateCode = currLocation.adminCode1;
+					newLocation.country = currLocation.countryName;
+					newLocation.countryCode = currLocation.countryCode;
+					newLocation.population = currLocation.population;
+				
+					locResults.push(newLocation);
+				}
 			}
+			callback(null, locResults);
 		}
-		callback(null, locResults);
 	});
 
 }

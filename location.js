@@ -50,7 +50,7 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 		geonames.getLocationDetails(queries, function(err, results) {
 			if (err) {
 				var message = 'Encountered error: {0}.'.format(err);
-				packageResponse(err, message, data, params, res);
+				packageResponse(err, message, null, params, res);
 			} else {
 				// Successfully receive location information from GeoNames. 
 				locData = results;
@@ -64,9 +64,9 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 					if (err) {
 						response.isSuccessful = false;
 						var message = 'Encountered error: {0}.'.format(err);			
-						packageResponse(err, message, data, params, res);
+						packageResponse(err, message, null, params, res);
 					} else {
-						// Successfully retrieved/populated weather information from Weather Underground. 
+						// Successfully retrieved/populated weather information. 
 						locData = results;
 					}
 
@@ -96,6 +96,7 @@ http.createServer(function (request, response) {
 
 // Generic handler for API responses. 
 function packageResponse(err, message, data, params, res) {
+console.log('ERROR: ' + err);
 	var response = models.wrapper();
 	response.isSuccessful = (err) ? false : true;
 	response.message = message;	
