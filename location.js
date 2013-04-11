@@ -96,7 +96,6 @@ http.createServer(function (request, response) {
 
 // Generic handler for API responses. 
 function packageResponse(err, message, data, params, res) {
-console.log('ERROR: ' + err);
 	var response = models.wrapper();
 	response.isSuccessful = (err) ? false : true;
 	response.message = message;	

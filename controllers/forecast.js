@@ -18,7 +18,7 @@ this.getForecast = function(locations, callback) {
 			// Define options for HTTP request to Forecast.io API.
 			var options = { 
 				host: 'api.forecast.io', 
-				path: '/forecast/{0}/{1},{2}'
+				path: '/forecast/{0}/{1},{2}?exclude=minutely,hourly,daily,flags'
 			};
 			options.path = encodeURI(options.path.format(c.config.forecastKey, loc.latitude, loc.longitude));
 
