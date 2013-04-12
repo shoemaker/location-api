@@ -11,7 +11,9 @@ exports.location = function() {
 		zipCode : null,
 		population : null,
 		timeZone : exports.timeZone(), 
-		weather : exports.weather()
+		weather : exports.weather(),
+		dataProvider : null,
+		dataProviderUrl : null
 	};
 	
 	return obj;

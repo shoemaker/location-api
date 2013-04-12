@@ -93,6 +93,8 @@ this.getLocationDetails = function(locations, callback) {
 					newLocation.country = currLocation.countryName;
 					newLocation.countryCode = currLocation.countryCode;
 					newLocation.population = currLocation.population;
+					newLocation.dataProvider = 'GeoNames';
+					newLocation.dataProviderUrl = 'http://www.geonames.org/';
 				
 					locResults.push(newLocation);
 				}
