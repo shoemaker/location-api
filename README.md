@@ -25,6 +25,9 @@ Yahoo used to have a great service called "PlaceFinder" but as of 11.2012 it bec
 RESTful API by Weather Underground to search weather details for a given location. 
 For this application we're using the "Stratus Plan" to retrieve current weather conditions. 
 
+### [Forecast](https://developer.forecast.io/)
+RESTful API by forecast.io, the team behind the Dark Sky iOS app.
+
 ## Example Response
 
 	{
