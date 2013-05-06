@@ -32,7 +32,7 @@ RESTful API by forecast.io, the team behind the Dark Sky iOS app.
 
 	{
 	    "isSuccessful": true,
-	    "message": "Successfully found results for Minneapolis, MN.",
+	    "message": "Successfully found results for Minneapolis.",
 	    "data": {
 	        "locations": [
 	            {
@@ -45,23 +45,28 @@ RESTful API by forecast.io, the team behind the Dark Sky iOS app.
 	                "countryCode": "US",
 	                "population": 382578,
 	                "timeZone": {
-	                    "offsetMS": -21600000,
-	                    "offsetHours": -6,
+	                    "offsetMS": -18000000,
+	                    "offsetHours": -5,
 	                    "standardName": "America/Chicago",
-	                    "shortName": "CST"
+	                    "shortName": "CDT"
 	                },
 	                "weather": {
 	                    "conditions": "Clear",
-	                    "iconURL": "http://icons-ak.wxug.com/i/c/k/nt_clear.gif",
-	                    "tempF": 60.3,
-	                    "tempC": 15.7,
-	                    "tempDescription": "60.3 F (15.7 C)",
-	                    "humidity": "51%",
-	                    "windMPH": 14,
-	                    "windDirection": "South",
-	                    "windDescription": "From the South at 14.0 MPH Gusting to 20.0 MPH",
-	                    "url": "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=44.975399,-93.233704"
-	                }
+	                    "iconURL": "http://icons-ak.wxug.com/i/c/k/clear.gif",
+	                    "icon": null,
+	                    "tempF": 51.8,
+	                    "tempC": 11,
+	                    "tempDescription": "51.8 F (11.0 C)",
+	                    "humidity": "87%",
+	                    "windMPH": 3,
+	                    "windDirection": "North",
+	                    "windDescription": "From the North at 3.0 MPH",
+	                    "url": "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=44.975399,-93.233704",
+	                    "dataProvider": "Weather Underground",
+	                    "dataProviderUrl": "http://www.wunderground.com/?apiref=b9438d689fdd8edf"
+	                },
+	                "dataProvider": "GeoNames",
+	                "dataProviderUrl": "http://www.geonames.org/"
 	            }
 	        ]
 	    }
