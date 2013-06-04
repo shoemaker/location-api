@@ -13,7 +13,7 @@ The following are a few valid API calls available through the service.
 --
 
 Retrieve details for a single location. For example: q=Minneapolis
-GET /location?q={city}
+GET /location{?q}
 < 200
 < Content-Type: application/json
 {
@@ -60,8 +60,8 @@ GET /location?q={city}
 }
 
 
-Retrieve details for a single location using JSON_P. Specify a callback parameter. For example: &callback=foo.
-GET /location?q={city}{&callback}
+Retrieve details for a single location using JSON_P. Specify a callback parameter. For example: ?q=Minneapolis&callback=foo.
+GET /location{?q,callback}
 < 200
 < Content-Type: text/javascript
 if(foo)foo({
@@ -110,7 +110,7 @@ if(foo)foo({
 
 Retrieve details for multiple locations, using the pipe character (|) as a delimiter. 
 For example: q=Minneapolis, MN|New York, NY|Denver
-GET /location?q={city}
+GET /location{?q}
 < 200
 < Content-Type: application/json
 {
