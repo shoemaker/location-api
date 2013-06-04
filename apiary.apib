@@ -1,6 +1,6 @@
 HOST: http://shoe.io/
 
---- Location ---
+--- Location API ---
 
 ---
 Documenting shoemaker's Location API. Source code can be found on [Git Hub](https://github.com/shoemaker/location-api). 
@@ -13,7 +13,7 @@ The following are a few valid API calls available through the service.
 --
 
 Retrieve details for a single location.
-GET /location?q=Minneapolis
+GET /location?q={city}
 < 200
 < Content-Type: application/json
 {
@@ -59,8 +59,57 @@ GET /location?q=Minneapolis
     }
 }
 
-Retrieve details for multiple locations.
-GET /location?q=Minneapolis, MN|New York, NY|Denver
+Retrieve details for a single location using JSON_P. Specify a callback parameter.
+GET /location?q={city}&callback={callbackname}
+< 200
+< Content-Type: text/javascript
+if(foo)foo({
+    "isSuccessful": true,
+    "message": "Successfully found results for Minneapolis.",
+    "data": {
+        "locations": [
+            {
+                "latitude": 44.9799654,
+                "longitude": -93.2638361,
+                "city": "Minneapolis",
+                "state": "Minnesota",
+                "stateCode": "MN",
+                "country": "United States",
+                "countryCode": "US",
+                "zipCode": null,
+                "population": 382578,
+                "timeZone": {
+                    "offsetMS": -18000000,
+                    "offsetHours": -5,
+                    "standardName": "America/Chicago",
+                    "shortName": "CDT"
+                },
+                "weather": {
+                    "conditions": "Overcast",
+                    "iconURL": "http://icons-ak.wxug.com/i/c/k/cloudy.gif",
+                    "icon": null,
+                    "tempF": 67.8,
+                    "tempC": 19.9,
+                    "tempDescription": "67.8 F (19.9 C)",
+                    "humidity": "67%",
+                    "windMPH": 10,
+                    "windDirection": "ESE",
+                    "windDescription": "From the ESE at 10.0 MPH",
+                    "url": "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=44.975399,-93.233704",
+                    "dataProvider": "Weather Underground",
+                    "dataProviderUrl": "http://www.wunderground.com/?apiref=b9438d689fdd8edf"
+                },
+                "dataProvider": "GeoNames",
+                "dataProviderUrl": "http://www.geonames.org/"
+            }
+        ]
+    }
+});
+
+
+Retrieve details for multiple locations, using the pipe character (|) as a delimiter.
+Example: Minneapolis, MN|New York, NY|Denver
+GET /location?q={city1|city2|city3}
 < 200
 < Content-Type: application/json
 {
