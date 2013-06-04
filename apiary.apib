@@ -3,7 +3,7 @@ HOST: http://shoe.io/
 --- Location API ---
 
 ---
-Documenting shoemaker's Location API. Source code can be found on [Git Hub](https://github.com/shoemaker/location-api). 
+Documenting shoemaker's Location API. Source code can be found on [GitHub](https://github.com/shoemaker/location-api). 
 Details include location (latitude, longitude, country, state, etc), time zone, and weather information. 
 ---
 
@@ -12,8 +12,8 @@ Location Resources
 The following are a few valid API calls available through the service. 
 --
 
-Retrieve details for a single location.
-GET /location?q=Minneapolis
+Retrieve details for a single location. For example: q=Minneapolis
+GET /location{?q}
 < 200
 < Content-Type: application/json
 {
