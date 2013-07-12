@@ -3,13 +3,12 @@
 ## About this Application
 A Node.js RESTful API that returns basic information about submitted location(s). 
 Details include location (latitude, longitude, country, state, etc), time zone, and weather information. 
-This project was originally created as a data source for a Jive [demonstration project](https://github.com/shoemaker/Jive-Location-Demo).
 
 ## Usage
-* Rename 'sample-config.js' to 'config.js' or obtain the decryption key for the Makefile.
-* Register with [GeoNames](http://www.geonames.org/) and [Weather Underground](http://www.wunderground.com/weather/api/). Update config.js with your keys.
-* Search a single location: http://localhost:8083/location?q=Minneapolis
-* Search more than one location (use the '|' delimiter): http://localhost:8083/location?q=Minneapolis|New%20York|London
+* Rename `sample-config.js` to `config.js` or obtain the decryption key for the Makefile.
+* Register with [GeoNames](http://www.geonames.org/) and [Weather Underground](http://www.wunderground.com/weather/api/). Update `config.js` with your keys.
+* Search a single location: `http://localhost:8083/location?q=Minneapolis`
+* Search more than one location (use the '|' delimiter): `http://localhost:8083/location?q=Minneapolis|New%20York|London`
 
 ## Services
 The API aggregates information from several third-party APIs. 
@@ -26,7 +25,7 @@ RESTful API by Weather Underground to search weather details for a given locatio
 For this application we're using the "Stratus Plan" to retrieve current weather conditions. 
 
 ### [Forecast](https://developer.forecast.io/)
-RESTful API by forecast.io, the team behind the Dark Sky iOS app.
+RESTful API by forecast.io, the team behind the great Dark Sky iOS app.
 
 ## Example Response
 
@@ -71,6 +70,9 @@ RESTful API by forecast.io, the team behind the Dark Sky iOS app.
 	        ]
 	    }
 	}
+
+## Tests
+Look in the `test` folder for a simple [Mocha](http://visionmedia.github.io/mocha/)-powered test suite. 
 
 
 ## Dependencies
