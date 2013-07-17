@@ -22,7 +22,7 @@ describe('Location Test', function() {
 	        },
 	        error: function(ex) {
 	            console.log('Well... this is embarrassing. ' + ex);
-	            $('#mocha').html('<p>Well... this is embarrassing. Encountered error requsting data.</p>');
+	            $('#mocha').html('<p>Well... this is embarrassing. Encountered error requesting data.</p>');
 	        },
 	        complete: function() { }
 		});

@@ -1,7 +1,7 @@
 # Location API
 
 ## About this Application
-A Node.js RESTful API that returns basic information about submitted location(s). 
+A Node.js RESTful API that returns basic information about requested location(s). 
 Details include location (latitude, longitude, country, state, etc), time zone, and weather information. 
 
 ## Usage
@@ -73,7 +73,21 @@ RESTful API by forecast.io, the team behind the great Dark Sky iOS app.
 
 ## Tests
 Look in the `test` folder for a simple [Mocha](http://visionmedia.github.io/mocha/)-powered test suite. 
+All tests require the API to be running on your local machine. 
 
+### HTML
+Run the HTML test by opening `test/index.html` in your browser. 
+
+### Node.js
+Ensure you have Mocha installed on your machine.
+
+	$ npm install -g mocha
+	$ cd test
+	$ mocha test-mocha -R spec
+
+## To Do
+* The HTML and Node.js tests are duplicated. Need to update this to be DRY instead of WET. 
+* Journey is a nice HTTP router, but it might be worth using Express instead. 
 
 ## Dependencies
 

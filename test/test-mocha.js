@@ -40,7 +40,7 @@ describe('Location Test', function() {
 					done();  // callback					
 				}
 			}).on('error', function(err) {
-				console.log("Encountered error: " + err.message);
+				console.log('Well... this is embarrassing. Encountered error requesting data.');
 			});
 		});
 	});
