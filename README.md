@@ -87,7 +87,7 @@ Ensure you have Mocha installed on your machine.
 
 ## To Do
 * The HTML and Node.js tests are duplicated. Need to update this to be DRY instead of WET. 
-* Journey is a nice HTTP router, but it might be worth using Express instead. 
+* Journey is a nice HTTP router, but consider using express instead. 
 
 ## Dependencies
 
