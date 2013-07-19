@@ -73,12 +73,13 @@ RESTful API by forecast.io, the team behind the great Dark Sky iOS app.
 
 ## Tests
 Look in the `test` folder for a simple [Mocha](http://visionmedia.github.io/mocha/)-powered test suite. 
+Tests using HTML and Node.js are available. 
 All tests require the API to be running on your local machine. 
 
-### HTML
+#### HTML
 Run the HTML test by opening `test/index.html` in your browser. 
 
-### Node.js
+#### Node.js
 Ensure you have Mocha installed on your machine.
 
 	$ npm install -g mocha
