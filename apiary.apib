@@ -1,115 +1,22 @@
 HOST: http://shoe.io/
 
---- Location API ---
-
+--- Shoemaker ---
 ---
-Documenting [Shoemaker's](http://brianshoemaker.com) Location API. Source code can be found on [GitHub](https://github.com/shoemaker/location-api). 
-Details include location (latitude, longitude, country, state, etc), time zone, and weather information. 
+Documenting the various APIs created by [Brian Shoemaker](http://brianshoemaker.com) as part of my projects. 
+The source code for these projects will be available on [GitHub](https://github.com/shoemaker).
 ---
 
 --
 Location Resources
-The following are a few valid API calls available through the service. 
+Query one or more cities for location (latitude, longitude, country, state, etc), time zone, and weather information. 
+The API is dependent upon free services, please be kind and do not hit the service excessively. 
 --
 
-Retrieve details for a single location. For example: q=Minneapolis
-GET /location{?q}
-< 200
-< Content-Type: application/json
-{
-    "isSuccessful": true,
-    "message": "Successfully found results for Minneapolis.",
-    "data": {
-        "locations": [
-            {
-                "latitude": 44.9799654,
-                "longitude": -93.2638361,
-                "city": "Minneapolis",
-                "state": "Minnesota",
-                "stateCode": "MN",
-                "country": "United States",
-                "countryCode": "US",
-                "zipCode": null,
-                "population": 382578,
-                "timeZone": {
-                    "offsetMS": -18000000,
-                    "offsetHours": -5,
-                    "standardName": "America/Chicago",
-                    "shortName": "CDT"
-                },
-                "weather": {
-                    "conditions": "Overcast",
-                    "iconURL": "http://icons-ak.wxug.com/i/c/k/cloudy.gif",
-                    "icon": null,
-                    "tempF": 67.8,
-                    "tempC": 19.9,
-                    "tempDescription": "67.8 F (19.9 C)",
-                    "humidity": "67%",
-                    "windMPH": 10,
-                    "windDirection": "ESE",
-                    "windDescription": "From the ESE at 10.0 MPH",
-                    "url": "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=44.975399,-93.233704",
-                    "dataProvider": "Weather Underground",
-                    "dataProviderUrl": "http://www.wunderground.com/?apiref=b9438d689fdd8edf"
-                },
-                "dataProvider": "GeoNames",
-                "dataProviderUrl": "http://www.geonames.org/"
-            }
-        ]
-    }
-}
-
-
-Retrieve details for a single location using JSON_P. Specify a callback parameter. For example: ?q=Minneapolis&callback=foo.
-GET /location{?q,callback}
-< 200
-< Content-Type: text/javascript
-if(foo)foo({
-    "isSuccessful": true,
-    "message": "Successfully found results for Minneapolis.",
-    "data": {
-        "locations": [
-            {
-                "latitude": 44.9799654,
-                "longitude": -93.2638361,
-                "city": "Minneapolis",
-                "state": "Minnesota",
-                "stateCode": "MN",
-                "country": "United States",
-                "countryCode": "US",
-                "zipCode": null,
-                "population": 382578,
-                "timeZone": {
-                    "offsetMS": -18000000,
-                    "offsetHours": -5,
-                    "standardName": "America/Chicago",
-                    "shortName": "CDT"
-                },
-                "weather": {
-                    "conditions": "Overcast",
-                    "iconURL": "http://icons-ak.wxug.com/i/c/k/cloudy.gif",
-                    "icon": null,
-                    "tempF": 67.8,
-                    "tempC": 19.9,
-                    "tempDescription": "67.8 F (19.9 C)",
-                    "humidity": "67%",
-                    "windMPH": 10,
-                    "windDirection": "ESE",
-                    "windDescription": "From the ESE at 10.0 MPH",
-                    "url": "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=44.975399,-93.233704",
-                    "dataProvider": "Weather Underground",
-                    "dataProviderUrl": "http://www.wunderground.com/?apiref=b9438d689fdd8edf"
-                },
-                "dataProvider": "GeoNames",
-                "dataProviderUrl": "http://www.geonames.org/"
-            }
-        ]
-    }
-});
-
-
-Retrieve details for multiple locations, using the pipe character (|) as a delimiter. 
-For example: q=Minneapolis, MN|New York, NY|Denver
+Retrieve details for one or more cities. 
+## Parameters
+**q**: A list of of cities to search. Use the pipe (|) character as the delimiter. Examples:  
+q=Minneapolis  
+q=Minneapolis, MN|New York, NY|Denver
 GET /location{?q}
 < 200
 < Content-Type: application/json
@@ -223,3 +130,57 @@ GET /location{?q}
         ]
     }
 }
+
+
+Retrieve details for a single location using JSON_P.  
+##Parameters
+**q**: A list of of cities to search. Use the pipe (|) character as the delimiter. Examples:  
+q=Minneapolis  
+q=Minneapolis, MN|New York, NY|Denver
+
+**callback**: The value to use when wrapping the response for JSONP. Example: callback=foo  
+GET /location{?q,callback}
+< 200
+< Content-Type: text/javascript
+if(foo)foo({
+    "isSuccessful": true,
+    "message": "Successfully found results for Minneapolis.",
+    "data": {
+        "locations": [
+            {
+                "latitude": 44.9799654,
+                "longitude": -93.2638361,
+                "city": "Minneapolis",
+                "state": "Minnesota",
+                "stateCode": "MN",
+                "country": "United States",
+                "countryCode": "US",
+                "zipCode": null,
+                "population": 382578,
+                "timeZone": {
+                    "offsetMS": -18000000,
+                    "offsetHours": -5,
+                    "standardName": "America/Chicago",
+                    "shortName": "CDT"
+                },
+                "weather": {
+                    "conditions": "Overcast",
+                    "iconURL": "http://icons-ak.wxug.com/i/c/k/cloudy.gif",
+                    "icon": null,
+                    "tempF": 67.8,
+                    "tempC": 19.9,
+                    "tempDescription": "67.8 F (19.9 C)",
+                    "humidity": "67%",
+                    "windMPH": 10,
+                    "windDirection": "ESE",
+                    "windDescription": "From the ESE at 10.0 MPH",
+                    "url": "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=44.975399,-93.233704",
+                    "dataProvider": "Weather Underground",
+                    "dataProviderUrl": "http://www.wunderground.com/?apiref=b9438d689fdd8edf"
+                },
+                "dataProvider": "GeoNames",
+                "dataProviderUrl": "http://www.geonames.org/"
+            }
+        ]
+    }
+});
