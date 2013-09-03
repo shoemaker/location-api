@@ -4,7 +4,7 @@ var cache = require('../lib/node-cache');
 var async = require('../lib/async');
 
 var models = require('../models/location');
-var c = require('../config');  // App configuration
+var c = require('../config').config;  // App configuration
 
 
 this.getForecast = function(locations, callback) {
@@ -20,7 +20,7 @@ this.getForecast = function(locations, callback) {
 				host: 'api.forecast.io', 
 				path: '/forecast/{0}/{1},{2}?exclude=minutely,hourly,daily,flags'
 			};
-			options.path = encodeURI(options.path.format(c.config.forecastKey, loc.latitude, loc.longitude));
+			options.path = encodeURI(options.path.format(c.forecastKey, loc.latitude, loc.longitude));
 
 			// Check to see if we already have this result in cache
 			// Using node-cache: https://github.com/ptarjan/node-cache
@@ -40,7 +40,7 @@ this.getForecast = function(locations, callback) {
 					// Handler once the request to the Forecast.io API is complete. 
 					res.on('end', function() { 
 						var data = JSON.parse(json);  // Turn the string into an object. 
-						cache.put(options.path, data, c.config.cacheDuration);  // Put this response in cache in case we need it later. 
+						cache.put(options.path, data, c.cacheDuration);  // Put this response in cache in case we need it later. 
 						
 						callback(null, data);
 					});

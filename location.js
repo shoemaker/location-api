@@ -8,7 +8,7 @@ if (!fs.existsSync("config.js")) {
 	process.exit(1);
 }
 
-var c = require('./config'); 
+var c = require('./config').config; 
 var journey = require('./lib/journey');  // Init REST route library
 var async = require('./lib/async');
 
@@ -91,7 +91,9 @@ http.createServer(function (request, response) {
             response.end(result.body);
         });
     });
-}).listen(8083);
+}).listen(c.port);
+console.log('\nServer running on port ' + c.port + '.');
+console.log('Try this: http://localhost:8083/location?q=Minneapolis\n');
 
 
 // Generic handler for API responses. 

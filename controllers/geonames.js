@@ -7,7 +7,7 @@ var cache = require('../lib/node-cache');
 var async = require('../lib/async');
 
 var models = require('../models/location');
-var c = require('../config');  // App configuration
+var c = require('../config').config;  // App configuration
 
 
 this.getLocationDetails = function(locations, callback) {
@@ -23,7 +23,7 @@ this.getLocationDetails = function(locations, callback) {
 				host: 'api.geonames.org', 
 				path: '/search?q={0}&type=json&maxRows=1&orderby=relevance&fuzzy=1&username={1}&isNameRequired=true'
 			};
-			options.path = encodeURI(options.path.format(loc, c.config.geonamesUsername));
+			options.path = encodeURI(options.path.format(loc, c.geonamesUsername));
 
 			// Check to see if we already have this result in cache
 			// Using node-cache: https://github.com/ptarjan/node-cache
@@ -45,7 +45,7 @@ this.getLocationDetails = function(locations, callback) {
 						var err;
 						try {
 							var data = JSON.parse(json);  // Turn the string into an object. 
-							// cache.put(options.path, data, c.config.cacheDuration);  // Put this response in cache in case we need it later. 
+							// cache.put(options.path, data, c.cacheDuration);  // Put this response in cache in case we need it later. 
 							cache.put(options.path, data);  // This data doesn't change, don't set the cache to expire.
 						} catch(ex) {
 							console.log("Encountered error: " + ex.message);
