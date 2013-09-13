@@ -7,13 +7,14 @@
     "test": "test"
   },
   "scripts": {
+    "start": "node location.js",
     "test": "mocha test/test-mocha.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/shoemaker/location-api.git"
   },
-  "author": "Brian Shoemaker",
+  "author": "Brian Shoemaker (http://brianshoemaker.com)",
   "license": "MIT License",
   "bugs": {
     "url": "https://github.com/shoemaker/location-api/issues"
