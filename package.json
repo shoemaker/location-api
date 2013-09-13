@@ -1,32 +1,21 @@
 {
-    'name': 'shoemaker-location',
-    'preferGlobal': 'false',
-    'version': '1.0.1',
-    'author': 'Shoemaker <brianshoemaker+dev@gmail.com>',
-    'description': 'a RESTful API that returns basic details about submitted location(s)',
-    'contributors': [
-        {
-            'name': 'Brian Shoemaker',
-            'email': 'brianshoemaker+dev@gmail.com'
-        }
-    ],
-    'repository': {
-        'type': 'git',
-        'url': 'https://github.com/shoemaker/shoemaker-location.git'
-    },
-    'keywords': [
-        'rest',
-        'weather',
-        'location'
-    ],
-    'dependencies': {
-        'journey': '0.4.x',
-        'async': '0.1.x',
-        'node-cache': '0.0.4'
-    },
-    'analyze': false,
-    'license': 'MIT',
-    'engines': {
-        'node': '>=0.8'
-    }
+  "name": "location-api",
+  "version": "1.0.2",
+  "description": "A Node.js RESTful API that returns basic information about requested location(s). Details include location (latitude, longitude, country, state, etc), time zone, and weather information.",
+  "main": "location.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/test-mocha.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shoemaker/location-api.git"
+  },
+  "author": "Brian Shoemaker",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/shoemaker/location-api/issues"
+  }
 }

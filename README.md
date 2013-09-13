@@ -80,7 +80,7 @@ All tests require the API to be running on your local machine.
 #### HTML
 Run the HTML test by opening `test/index.html` in your browser. 
 
-#### Node.js
+#### Mocha
 Ensure you have Mocha installed on your machine.
 
 	$ npm install -g mocha
