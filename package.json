@@ -1,22 +1,27 @@
 {
-  "name": "location-api",
-  "version": "1.0.2",
-  "description": "A Node.js RESTful API that returns basic information about requested location(s). Details include location (latitude, longitude, country, state, etc), time zone, and weather information.",
-  "main": "location.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "start": "node location.js",
-    "test": "mocha test/test-mocha.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shoemaker/location-api.git"
-  },
-  "author": "Brian Shoemaker (http://brianshoemaker.com)",
-  "license": "MIT License",
-  "bugs": {
-    "url": "https://github.com/shoemaker/location-api/issues"
-  }
+	"name": "location-api",
+	"version": "1.0.2",
+	"description": "A Node.js RESTful API that returns basic information about requested location(s). Details include location (latitude, longitude, country, state, etc), time zone, and weather information.",
+	"main": "location.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"start": "node location.js",
+		"test": "mocha test/test-mocha.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/shoemaker/location-api.git"
+	},
+	"author": "Brian Shoemaker (http://brianshoemaker.com)",
+	"license": "MIT License",
+	"bugs": {
+		"url": "https://github.com/shoemaker/location-api/issues"
+	},
+	"dependencies" : {
+		"async" : "0.2.9",
+		"journey" : "0.4.0-pre-3",
+		"memory-cache" : "0.0.5"
+	}
 }

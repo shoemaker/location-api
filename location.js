@@ -1,5 +1,7 @@
 var http = require('http');
 var fs = require('fs');  // File system access
+var async = require('async');
+var journey = require('journey');  // Init REST route library
 
 // App configuration
 if (!fs.existsSync("config.js")) {
@@ -9,9 +11,6 @@ if (!fs.existsSync("config.js")) {
 }
 
 var c = require('./config').config; 
-var journey = require('./lib/journey');  // Init REST route library
-var async = require('./lib/async');
-
 var models = require('./models/location');
 var geonames = require('./controllers/geonames');
 var wunderground = require('./controllers/wunderground');
@@ -93,7 +92,7 @@ http.createServer(function (request, response) {
     });
 }).listen(c.port);
 console.log('\nServer running on port ' + c.port + '.');
-console.log('Try this: http://localhost:8083/location?q=Minneapolis\n');
+console.log('Try this: http://localhost:' + c.port + '/location?q=Minneapolis\n');
 
 
 // Generic handler for API responses. 

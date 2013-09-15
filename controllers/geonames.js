@@ -2,9 +2,8 @@
 // http://www.geonames.org/export/geonames-search.html
 
 var http = require('http');
-
-var cache = require('../lib/node-cache'); 
-var async = require('../lib/async');
+var cache = require('memory-cache'); 
+var async = require('async');
 
 var models = require('../models/location');
 var c = require('../config').config;  // App configuration
