@@ -3,9 +3,6 @@
 	"version": "1.0.2",
 	"description": "A Node.js RESTful API that returns basic information about requested location(s). Details include location (latitude, longitude, country, state, etc), time zone, and weather information.",
 	"main": "location.js",
-	"directories": {
-		"test": "test"
-	},
 	"scripts": {
 		"start": "node location.js",
 		"test": "mocha test/test.js -R spec"
