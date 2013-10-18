@@ -23,5 +23,8 @@
 		"async" : "0.2.9",
 		"journey" : "0.4.0-pre-3",
 		"memory-cache" : "0.0.5"
+	},
+	"devDependencies": {
+		"mocha": "~1.13.0"
 	}
 }

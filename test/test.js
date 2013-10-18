@@ -5,43 +5,24 @@ var http = require('http');
 var assert = require('assert');
 var expect = require('./js/expect.js');
 
-var options = { 
-	host: 'localhost',
-	port: '8083', 
-	path: '/location?q=Minneapolis|New%20York|Buenos%20Aires'
-};
-
 var URL_REGEX = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
 
-// Sandbox, playing with Mocha and expect.js. 
+// Begin Test
 describe('Location Test', function() {
 	var response, locations;
 
 	// Retreive data to power these tests. 
 	before(function(done) {
-		http.get(options, function(res) { 
-			var json = '';		
-	
-			// Handler for each chunk of data in the response from the API
-			res.on('data', function (chunk) { 
-				json += chunk;  // Append this chunk
-			});
-			
-			// Handler once the request to the API is complete. 
-			res.on('end', function() { 
-				var err;
-				try { 
-					var data = JSON.parse(json);  // Turn the string into an object. 
-					response = data;
-					locations = data.data.locations;
-				} catch (ex) {
-					console.log("Encountered error: " + ex.message);
-				} finally {
-					done();  // callback					
-				}
-			}).on('error', function(err) {
-				console.log('Well... this is embarrassing. Encountered error requesting data.');
-			});
+		var options = { 
+			host: 'localhost',
+			port: '8083', 
+			path: '/location?q=Minneapolis|New%20York|Buenos%20Aires'
+		};
+
+		retrieveData(options, function(err, data) {
+			response = data;
+			locations = response.data.locations;
+			done();
 		});
 	});
 	
@@ -127,3 +108,42 @@ describe('Location Test', function() {
 		});
 	});
 });
+
+
+// Common handler to retrieve data.
+/*
+options should be an object:
+{ 
+	host: 'localhost',
+	port: '8083', 
+	path: '/location?q=Minneapolis|New%20York|Buenos%20Aires'
+}
+*/
+function retrieveData(options, callback) {
+	var response;
+
+	http.get(options, function(res) { 
+		var json = '';		
+
+		// Handler for each chunk of data in the response from the API
+		res.on('data', function (chunk) { 
+			json += chunk;  // Append this chunk
+		});
+		
+		// Handler once the request to the API is complete. 
+		res.on('end', function() { 
+			var err;
+			try { 
+				response = JSON.parse(json);
+			} catch (ex) {
+				console.log("Encountered error: " + ex.message);
+				callback(ex);
+			} finally {
+				callback(null, response);
+			}
+		}).on('error', function(err) {
+			console.log('Well... this is embarrassing. Encountered error requesting data.');
+			callback(err);
+		});
+	});
+}

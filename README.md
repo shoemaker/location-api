@@ -85,7 +85,7 @@ Ensure you have Mocha installed on your machine.
 
 	$ npm install -g mocha
 	$ cd test
-	$ mocha test-mocha -R spec
+	$ mocha test.js -R spec
 
 ## To Do
 * The HTML and Node.js tests are duplicated. Need to update this to be DRY instead of WET. 
@@ -101,3 +101,6 @@ Library to manage asynchronous requests.
 
 ### [node-cache](https://github.com/ptarjan/node-cache)
 A simple in-memory cache for Node.js.
+
+### [mocha](https://github.com/visionmedia/mocha)
+Testing framework for node.js and the browser. 
