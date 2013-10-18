@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"start": "node location.js",
-		"test": "mocha test/test-mocha.js"
+		"test": "mocha test/test.js -R spec"
 	},
 	"repository": {
 		"type": "git",
