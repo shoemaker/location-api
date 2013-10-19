@@ -1,7 +1,7 @@
 // https://github.com/LearnBoost/expect.js
 // http://visionmedia.github.io/mocha/
 
-var TEST_URL = 'http://localhost:8083/location';
+var TEST_URL = '/location';
 var URL_REGEX = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
 
 describe('Location Test', function() {
@@ -112,25 +112,4 @@ describe('Location Test', function() {
 });
 
 
-// Sandbox, playing with Mocha and expect.js. 
-describe('Sandbox Test', function() {
-	describe('when an empty string is passed in', function() {
-		it('returns 0', function() {
-			var result = 0;
-			assert(result === 0);
-		});
-	});
-	
-	describe('when array of numbers is passed in', function() {
-		var testArray = [1,2,3];
-		
-		it('returns true', function() {
-			expect(testArray).to.contain(2);
-		});
-		
-		it('should return -1 when the value is not present', function() {
-			expect(testArray).to.not.contain(5);
-		});		
-	});	
-});
 

@@ -1,12 +1,11 @@
 var http = require('http');
 var fs = require('fs');  // File system access
-var async = require('async');
-var journey = require('journey');  // Init REST route library
+var express = require('express');  // Express framework
 
 // App configuration
-if (!fs.existsSync("config.js")) {
-	console.error("Config file [config.js] missing!");
-	console.error("Either rename sample-config.js and populate with your settings, or run 'make decrypt_conf'.");
+if (!fs.existsSync('config.js')) {
+	console.error('Config file [config.js] missing!');
+	console.error('Either rename sample-config.js and populate with your settings, or run \'make decrypt_conf\'.');
 	process.exit(1);
 }
 
@@ -16,31 +15,31 @@ var geonames = require('./controllers/geonames');
 var wunderground = require('./controllers/wunderground');
 var forecast = require('./controllers/forecast');
 
+// Configure Express
+var app = express();
+app.configure(function() {
+	app.use(express.cookieParser());
+	app.use(express.session({secret: 'foo' }));	
+	app.use(express.bodyParser());
 
-// Configure routes for the RESTful interface
-// https://github.com/cloudhead/journey
-var router = new(journey.Router);
-
-// Create the routing table
-
-router.map(function () {
-    //this.root.bind(function (req, res) { res.send("Location API (nothing configured for root path).") });
+	// Define paths for serving up static content. 
+	app.use('/location/test', express.static(__dirname + '/test'));
 });
 
-// Handler to return an empty criteria template
-router.get(/^\/location.*$/).bind(function(req, res, params) {
+// Define route(s) 
+app.get('/location', function(req, res) {
 	var response = models.wrapper();
 	locData = null;
 	
 	// Check if locations were provided
-	if (!params.q || params.q.length == 0) {
+	if (!req.query.q || req.query.q.length == 0) {
 		var message = 'No locations to search were provided. Use the \'q\' querystring parameter (example: q=Minneapolis,%20MN).';
-		packageResponse(null, message, null, params, res);
+		packageResponse(null, message, null, req.query, res);
 	} else {
 		// We have one or more locations, proceed. 
 		// Parse out the list of locations
-		var queries = params.q.split('|');
-		
+		var queries = req.query.q.split('|');
+
 		// Sometimes a trailing '|' makes its way to the query, resulting in an empty location. Remove it if it's there. 
 		if (queries[queries.length - 1].length == 0)
 			queries.pop();
@@ -49,13 +48,13 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 		geonames.getLocationDetails(queries, function(err, results) {
 			if (err) {
 				var message = 'Encountered error: {0}.'.format(err);
-				packageResponse(err, message, null, params, res);
+				packageResponse(err, message, null, req.query, res);
 			} else {
 				// Successfully receive location information from GeoNames. 
 				locData = results;
 				
 				// Determine which weather data provide to use. 
-				var weather = (params.source && params.source.toLowerCase() == 'forecast') ? forecast : wunderground;
+				var weather = (req.query.source && req.query.source.toLowerCase() == 'forecast') ? forecast : wunderground;
 				
 				// At this point we should have an array of locations populated. 
 				// Now, retrieve weather details. 
@@ -63,36 +62,24 @@ router.get(/^\/location.*$/).bind(function(req, res, params) {
 					if (err) {
 						response.isSuccessful = false;
 						var message = 'Encountered error: {0}.'.format(err);			
-						packageResponse(err, message, null, params, res);
+						packageResponse(err, message, null, req.query, res);
 					} else {
 						// Successfully retrieved/populated weather information. 
 						locData = results;
 					}
 
-					var message = 'Successfully found results for {0}.'.format(params.q);
-					packageResponse(null, message, { 'locations' : locData }, params, res);
+					var message = 'Successfully found results for {0}.'.format(req.query.q);
+					packageResponse(null, message, { 'locations' : locData }, req.query, res);
 				});
 			}
-		});
-		
+		});		
 	}
 });
 
-// Instantiate the HTTP server
-http.createServer(function (request, response) {
-    var body = '';
-
-    request.addListener('data', function (chunk) { body += chunk });
-    request.addListener('end', function () {
-        // Dispatch the request to the router
-        router.handle(request, body, function (result) {
-            response.writeHead(result.status, result.headers);
-            response.end(result.body);
-        });
-    });
-}).listen(c.port);
-console.log('\nServer running on port ' + c.port + '.');
+/*** Fire up the Express web server ***/
+app.listen(c.port);
 console.log('Try this: http://localhost:' + c.port + '/location?q=Minneapolis\n');
+
 
 
 // Generic handler for API responses. 
@@ -101,33 +88,29 @@ function packageResponse(err, message, data, params, res) {
 	response.isSuccessful = (err) ? false : true;
 	response.message = message;	
 	response.data = data;	
-	
-	var headers = {};
-	
+
 	// Massage the response if the response is to be JSONP
 	if (params.callback && params.callback.length > 0) {
-		var headers = {
-			'Access-Control-Allow-Origin' : '*',
-			'Content-Type' : 'text/javascript'
-		};		
+		res.setHeader('Content-Type', 'text/javascript');
 		response = JSON.stringify(response);
 		response = 'if({0}){1}({2});'.format(params.callback, params.callback, response);
 	} else {
-		var headers = {
-			'Access-Control-Allow-Origin' : '*',
-			'Content-Type' : 'applications/json'
-		};
+		res.setHeader('Content-Type', 'application/json');
 	}
 	
+	// Set the correct status value
 	if (err) {
-		res.send(500, headers, response);
+		res.status(500);
 	} else {
-		res.send(200, headers, response);
+		res.status(200);
 	}
+
+	res.setHeader('Access-Control-Allow-Origin', '*');
+
+	// Send the response. 
+	res.send(response)
 }
 
-
-// Utility functions
 
 // Add C#-ish string formatting to JavaScript. 
 String.prototype.format = function() { 

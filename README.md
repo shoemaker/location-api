@@ -89,12 +89,11 @@ Ensure you have Mocha installed on your machine.
 
 ## To Do
 * The HTML and Node.js tests are duplicated. Need to update this to be DRY instead of WET. 
-* Journey is a nice HTTP router, but consider using express instead. 
 
 ## Dependencies
 
-### [journey](https://github.com/cloudhead/journey)
-HTTP-routing in Node.js. 
+### [express](http://expressjs.com/)
+Web application framework for Node.js.
 
 ### [async](https://github.com/caolan/async)
 Library to manage asynchronous requests.
