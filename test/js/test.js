@@ -5,9 +5,9 @@ var TEST_URL = '/location';
 var URL_REGEX = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
 
 describe('Location Test', function() {
-	
 	var response, locations;
-
+	this.timeout(5000);  // Give it 5 seconds. 
+	
 	// Retreive data to power these tests. 
 	before(function(done) {
 		$.ajax({
