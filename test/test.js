@@ -13,6 +13,8 @@ describe('Location Test', function() {
 
 	// Retreive data to power these tests. 
 	before(function(done) {
+		this.timeout(5000);
+		
 		var options = { 
 			host: 'localhost',
 			port: '8083', 

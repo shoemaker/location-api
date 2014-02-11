@@ -4,7 +4,7 @@
 	"description": "A Node.js RESTful API that returns basic information about requested location(s). Details include location (latitude, longitude, country, state, etc), time zone, and weather information.",
 	"main": "location.js",
 	"scripts": {
-		"start": "node location.js",
+		"start": "nodemon -w . location.js",
 		"test": "mocha test/test.js -R spec"
 	},
 	"repository": {
@@ -22,7 +22,8 @@
 		"memory-cache" : ">=0.0.5"
 	},
 	"devDependencies": {
-		"mocha": "~1.13.0"
+		"mocha": "~1.13.0",
+		"nodemon": ">=0.7.10"
 	},
 	"engines" : {
 		"node" : ">=0.10.0"

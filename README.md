@@ -7,26 +7,10 @@ Details include location (latitude, longitude, country, state, etc), time zone, 
 ## Usage
 * Rename `sample-config.js` to `config.js` or obtain the decryption key for the Makefile.
 * Register with [GeoNames](http://www.geonames.org/) and [Weather Underground](http://www.wunderground.com/weather/api/). Update `config.js` with your keys.
-* Fire up the server: ` $ node location.js`
+* Install dependencies: `$ npm install`
+* Fire up the server: ` $ npm start`
 * Search a single location: `http://localhost:8083/location?q=Minneapolis`
 * Search more than one location (use the '|' delimiter): `http://localhost:8083/location?q=Minneapolis|New%20York|London`
-
-## Services
-The API aggregates information from several third-party APIs. 
-You will need to register a developer ID (free) to use these services. 
-Just update the config.js with your information. 
-
-### [GeoNames](http://www.geonames.org/)
-RESTful API to perform free-form location searches. 
-We're using GeoNames rather than Google because of the restrictions Google places on the use of search results. 
-Yahoo used to have a great service called "PlaceFinder" but as of 11.2012 it became a fee-based service. 
-
-### [Weather Underground](http://www.wunderground.com/weather/api/)
-RESTful API by Weather Underground to search weather details for a given location. 
-For this application we're using the "Stratus Plan" to retrieve current weather conditions. 
-
-### [Forecast](https://developer.forecast.io/)
-RESTful API by forecast.io, the team behind the great Dark Sky iOS app.
 
 ## Example Response
 
@@ -84,22 +68,24 @@ Run the HTML test by opening `test/index.html` in your browser.
 Ensure you have Mocha installed on your machine.
 
 	$ npm install -g mocha
-	$ cd test
-	$ mocha test.js -R spec
+	$ npm test
 
 ## To Do
 * The HTML and Node.js tests are duplicated. Need to update this to be DRY instead of WET. 
 
-## Dependencies
+## Services
+The API aggregates information from several third-party APIs. 
+You will need to register a developer ID (free) to use these services. 
+Just update the config.js with your information. 
 
-### [express](http://expressjs.com/)
-Web application framework for Node.js.
+### [GeoNames](http://www.geonames.org/)
+RESTful API to perform free-form location searches. 
+We're using GeoNames rather than Google because of the restrictions Google places on the use of search results. 
+Yahoo used to have a great service called "PlaceFinder" but as of 11.2012 it became a fee-based service. 
 
-### [async](https://github.com/caolan/async)
-Library to manage asynchronous requests.
+### [Weather Underground](http://www.wunderground.com/weather/api/)
+RESTful API by Weather Underground to search weather details for a given location. 
+For this application we're using the "Stratus Plan" to retrieve current weather conditions. 
 
-### [node-cache](https://github.com/ptarjan/node-cache)
-A simple in-memory cache for Node.js.
-
-### [mocha](https://github.com/visionmedia/mocha)
-Testing framework for node.js and the browser. 
+### [Forecast](https://developer.forecast.io/)
+RESTful API by forecast.io, the team behind the great Dark Sky iOS app.
