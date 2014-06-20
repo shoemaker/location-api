@@ -1,6 +1,10 @@
 var http = require('http');
 var fs = require('fs');  // File system access
+var path = require('path');
 var express = require('express');  // Express framework
+var bodyParser = require('body-parser');
+var compress = require('compression');
+var _ = require('lodash');
 
 // App configuration
 if (!fs.existsSync('config.js')) {
@@ -15,16 +19,13 @@ var geonames = require('./controllers/geonames');
 var wunderground = require('./controllers/wunderground');
 var forecast = require('./controllers/forecast');
 
-// Configure Express
+// Init Express
 var app = express();
-app.configure(function() {
-	app.use(express.cookieParser());
-	app.use(express.session({secret: 'foo' }));	
-	app.use(express.bodyParser());
+app.set('port', c.portNum || 3000);
+app.use(compress());
+app.use(bodyParser.json())
+app.use('/location/test', express.static(path.join(__dirname, 'test')));  // Define path(s) for serving up static content. 
 
-	// Define paths for serving up static content. 
-	app.use('/location/test', express.static(__dirname + '/test'));
-});
 
 // Define route(s) 
 app.get('/location', function(req, res) {
@@ -47,7 +48,7 @@ app.get('/location', function(req, res) {
 		// Request location data
 		geonames.getLocationDetails(queries, function(err, results) {
 			if (err) {
-				var message = 'Encountered error: {0}.'.format(err);
+				var message = _.template('Encountered error: <%= error%>.', { 'error':err });
 				packageResponse(err, message, null, req.query, res);
 			} else {
 				// Successfully receive location information from GeoNames. 
@@ -61,14 +62,14 @@ app.get('/location', function(req, res) {
 				weather.getForecast(locData, function(err, results) {
 					if (err) {
 						response.isSuccessful = false;
-						var message = 'Encountered error: {0}.'.format(err);			
+						var message = _.template('Encountered error: <%= error%>.', { 'error':err });
 						packageResponse(err, message, null, req.query, res);
 					} else {
 						// Successfully retrieved/populated weather information. 
 						locData = results;
 					}
 
-					var message = 'Successfully found results for {0}.'.format(req.query.q);
+					var message = _.template('Successfully found results for <%= query%>.', { 'query' : req.query.q });
 					packageResponse(null, message, { 'locations' : locData }, req.query, res);
 				});
 			}
@@ -93,7 +94,7 @@ function packageResponse(err, message, data, params, res) {
 	if (params.callback && params.callback.length > 0) {
 		res.setHeader('Content-Type', 'text/javascript');
 		response = JSON.stringify(response);
-		response = 'if({0}){1}({2});'.format(params.callback, params.callback, response);
+		response = _.template('if(<%=callback%>)<%=callback%>(<%=response%>);', { 'callback' : params.callback, 'response' : response });
 	} else {
 		res.setHeader('Content-Type', 'application/json');
 	}
@@ -111,15 +112,4 @@ function packageResponse(err, message, data, params, res) {
 	res.send(response)
 }
 
-
-// Add C#-ish string formatting to JavaScript. 
-String.prototype.format = function() { 
-	var args = arguments; 
-	return this.replace(/{(\d+)}/g, function(match, number) { 
-		return typeof args[number] != 'undefined' 
-			? args[number] 
-			: match
-		;
-	});
-};
 

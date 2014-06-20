@@ -1,6 +1,7 @@
 var http = require('http');
 var cache = require('memory-cache'); 
 var async = require('async');
+var _ = require('lodash');
 
 var models = require('../models/location');
 var c = require('../config').config;  // App configuration
@@ -17,9 +18,9 @@ this.getForecast = function(locations, callback) {
 			// Define options for HTTP request to Weather Underground API.
 			var options = { 
 				host: 'api.wunderground.com', 
-				path: '/api/{0}/conditions/q/{1},{2}.json'
+				path: '/api/<%=key%>/conditions/q/<%=lat%>,<%=lon%>.json'
 			};
-			options.path = encodeURI(options.path.format(c.wundergroundKey, loc.latitude, loc.longitude));
+			options.path = encodeURI(_.template(options.path, {'key':c.wundergroundKey, 'lat':loc.latitude, 'lon':loc.longitude}));
 
 			// Check to see if we already have this result in cache
 			// Using node-cache: https://github.com/ptarjan/node-cache

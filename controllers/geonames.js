@@ -4,6 +4,7 @@
 var http = require('http');
 var cache = require('memory-cache'); 
 var async = require('async');
+var _ = require('lodash');
 
 var models = require('../models/location');
 var c = require('../config').config;  // App configuration
@@ -20,9 +21,9 @@ this.getLocationDetails = function(locations, callback) {
 			// Define options for HTTP request to GeoNames API.
 			var options = { 
 				host: 'api.geonames.org', 
-				path: '/search?q={0}&type=json&maxRows=1&orderby=relevance&fuzzy=1&username={1}&isNameRequired=true'
+				path: '/search?q=<%=location%>&type=json&maxRows=1&orderby=relevance&fuzzy=1&username=<%=username%>&isNameRequired=true'
 			};
-			options.path = encodeURI(options.path.format(loc, c.geonamesUsername));
+			options.path = encodeURI(_.template(options.path, {'location':loc, 'username':c.geonamesUsername}));
 
 			// Check to see if we already have this result in cache
 			// Using node-cache: https://github.com/ptarjan/node-cache

@@ -1,6 +1,7 @@
 var https = require('https');
 var cache = require('memory-cache'); 
 var async = require('async');
+var _ = require('lodash');
 
 var models = require('../models/location');
 var c = require('../config').config;  // App configuration
@@ -17,9 +18,9 @@ this.getForecast = function(locations, callback) {
 			// Define options for HTTP request to Forecast.io API.
 			var options = { 
 				host: 'api.forecast.io', 
-				path: '/forecast/{0}/{1},{2}?exclude=minutely,hourly,daily,flags'
+				path: '/forecast/<%=key%>/<%=lat%>,<%=lon%>?exclude=minutely,hourly,daily,flags'
 			};
-			options.path = encodeURI(options.path.format(c.forecastKey, loc.latitude, loc.longitude));
+			options.path = encodeURI(_.template(options.path, {'key':c.forecastKey, 'lat':loc.latitude, 'lon':loc.longitude}));
 
 			// Check to see if we already have this result in cache
 			// Using node-cache: https://github.com/ptarjan/node-cache

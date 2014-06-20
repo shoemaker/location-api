@@ -4,6 +4,7 @@
 var http = require('http');
 var assert = require('assert');
 var expect = require('./js/expect.js');
+var c = require('../config').config; 
 
 var URL_REGEX = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
 
@@ -17,7 +18,7 @@ describe('Location Test', function() {
 		
 		var options = { 
 			host: 'localhost',
-			port: '8083', 
+			port: c.port,
 			path: '/location?q=Minneapolis|New%20York|Buenos%20Aires'
 		};
 
