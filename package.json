@@ -11,24 +11,24 @@
     "type": "git",
     "url": "https://github.com/shoemaker/location-api.git"
   },
-  "author": "Brian Shoemaker (http://brianshoemaker.com)",
-  "license": "MIT License",
+  "author": "Brian Shoemaker <http://brianshoemaker.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/shoemaker/location-api/issues"
   },
   "dependencies": {
-    "async": "0.9.0",
-    "body-parser": "1.4.1",
-    "compression": "1.0.7",
-    "express": "4.4.3",
-    "lodash": "2.4.1",
-    "memory-cache": "0.0.5"
+    "async": "^1.4.0",
+    "body-parser": "^1.14.0",
+    "compression": "^1.5.1",
+    "express": "^4.13.1",
+    "lodash": "^2.4.1",
+    "memory-cache": "0.1.4"
   },
   "devDependencies": {
     "mocha": "1.13.0",
-    "nodemon": "1.2.0"
+    "nodemon": "^1.7.0"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.12.7"
   }
 }
