@@ -21,11 +21,12 @@
     "body-parser": "^1.14.0",
     "compression": "^1.5.1",
     "express": "^4.13.1",
-    "lodash": "^2.4.1",
+    "helmet": "^0.15.0",
+    "lodash": "^3.10.1",
     "memory-cache": "0.1.4"
   },
   "devDependencies": {
-    "mocha": "1.13.0",
+    "mocha": "2.3.4",
     "nodemon": "^1.7.0"
   },
   "engines": {
