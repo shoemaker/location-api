@@ -1,52 +1,52 @@
 <!-- http://visionmedia.github.io/mocha/#browser-support 
-	
+    
 -->
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Location API Test</title>
-		<link rel="stylesheet" href="./mocha/mocha.css" />
-		<style type="text/css">
-	        body {
-	          font: 300 14px "Helvetica", "Arial", sans-serif;
-	          margin: 5px;
-	          padding: 5px;
-	          color: #333333;
-	        }
-	        
-	        #mocha {
-				margin: 10px 0 0 5px;
-				padding: 0;
-	        }
-		</style>
-	</head>
-	<body>
-		<h2>Location API Test</h2>
-		<p>
-			This is a lightweight test of the <a href="http://github.com/shoemaker/location-api" target="_blank">Location API</a>
-			using <a href="http://visionmedia.github.io/mocha/" target="_blank">Mocha</a> and <a href="https://github.com/LearnBoost/expect.js" target="_blank">expect.js</a>. 
- 		</p>
-		<div id="mocha"></div>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Location API Test</title>
+        <link rel="stylesheet" href="./mocha/mocha.css" />
+        <style type="text/css">
+            body {
+              font: 300 14px "Helvetica", "Arial", sans-serif;
+              margin: 5px;
+              padding: 5px;
+              color: #333333;
+            }
+            
+            #mocha {
+                margin: 10px 0 0 5px;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Location API Test</h2>
+        <p>
+            This is a lightweight test of the <a href="http://github.com/shoemaker/location-api" target="_blank">Location API</a>
+            using <a href="http://visionmedia.github.io/mocha/" target="_blank">Mocha</a> and <a href="https://github.com/LearnBoost/expect.js" target="_blank">expect.js</a>. 
+        </p>
+        <div id="mocha"></div>
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script src="./js/expect.js"></script>
-		<script src="./mocha/mocha.js"></script>
-		<script>mocha.setup('bdd')</script>
-		
-		<script>
-			function assert(expr, msg) {
-				if (!expr) throw new Error(msg || 'failed');
-			}
-		</script>
-		
-		<script src="./js/test.js"></script>
-		<script>
-			$('document').ready(function() {
-				mocha.checkLeaks();
-				mocha.globals(['jQuery']);
-				mocha.run();				
-			});
-		</script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="./js/expect.js"></script>
+        <script src="./mocha/mocha.js"></script>
+        <script>mocha.setup('bdd')</script>
+        
+        <script>
+            function assert(expr, msg) {
+                if (!expr) throw new Error(msg || 'failed');
+            }
+        </script>
+        
+        <script src="./js/test.js"></script>
+        <script>
+            $('document').ready(function() {
+                mocha.checkLeaks();
+                mocha.globals(['jQuery']);
+                mocha.run();                
+            });
+        </script>
 </body>
 </html>
