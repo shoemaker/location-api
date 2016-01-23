@@ -1,10 +1,11 @@
-var http = require('http');
-var fs = require('fs');  // File system access
-var path = require('path');
-var express = require('express');  // Express framework
-var bodyParser = require('body-parser');
-var compress = require('compression');
-var _ = require('lodash');
+var http = require('http'), 
+	fs = require('fs'),
+	path = require('path'),
+	express = require('express'), 
+	bodyParser = require('body-parser'),
+	compress = require('compression'),
+	_ = require('lodash'),
+	helmet = require('helmet');
 
 // App configuration
 if (!fs.existsSync('config.js')) {
@@ -24,6 +25,7 @@ var app = express();
 app.set('port', c.portNum || 3000);
 app.use(compress());
 app.use(bodyParser.json())
+app.use(helmet());
 app.use('/location/test', express.static(path.join(__dirname, 'test')));  // Define path(s) for serving up static content. 
 
 
