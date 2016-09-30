@@ -1,6 +1,6 @@
 {
   "name": "location-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Node.js RESTful API that returns basic information about requested location(s). Details include location (latitude, longitude, country, state, etc), time zone, and weather information.",
   "main": "location.js",
   "scripts": {
