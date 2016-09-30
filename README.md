@@ -11,6 +11,7 @@ Details include location (latitude, longitude, country, state, etc), time zone, 
 * Fire up the server: ` $ npm start`
 * Search a single location: `http://localhost:8083/location?q=Minneapolis`
 * Search more than one location (use the '|' delimiter): `http://localhost:8083/location?q=Minneapolis|New%20York|London`
+* Change the source for weather data to Dark Sky: `http://localhost:8083/location?q=Minneapolis&source=darksky`
 
 ## Example Response
 
@@ -87,5 +88,5 @@ Yahoo used to have a great service called "PlaceFinder" but as of 11.2012 it bec
 RESTful API by Weather Underground to search weather details for a given location. 
 For this application we're using the "Stratus Plan" to retrieve current weather conditions. 
 
-### [Forecast](https://developer.forecast.io/)
-RESTful API by forecast.io, the team behind the great Dark Sky iOS app.
+### [Dark Sky](https://darksky.net/dev/)
+RESTful API by Dark Sky (formerly forecast.io), the team behind the great Dark Sky iOS app.

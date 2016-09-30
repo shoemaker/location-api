@@ -18,7 +18,7 @@ var c = require('./config').config;
 var models = require('./models/location');
 var geonames = require('./controllers/geonames');
 var wunderground = require('./controllers/wunderground');
-var forecast = require('./controllers/forecast');
+var darksky = require('./controllers/darksky');
 
 // Init Express
 var app = express();
@@ -58,7 +58,7 @@ app.get('/location', function(req, res) {
                 locData = results;
                 
                 // Determine which weather data provide to use. 
-                var weather = (req.query.source && req.query.source.toLowerCase() == 'forecast') ? forecast : wunderground;
+                var weather = (req.query.source && req.query.source.toLowerCase() == 'darksky') ? darksky : wunderground;
                 
                 // At this point we should have an array of locations populated. 
                 // Now, retrieve weather details. 

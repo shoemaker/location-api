@@ -1,6 +1,6 @@
 {
   "name": "location-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Node.js RESTful API that returns basic information about requested location(s). Details include location (latitude, longitude, country, state, etc), time zone, and weather information.",
   "main": "location.js",
   "scripts": {
@@ -17,19 +17,19 @@
     "url": "https://github.com/shoemaker/location-api/issues"
   },
   "dependencies": {
-    "async": "^1.5.2",
-    "body-parser": "^1.14.2",
-    "compression": "^1.6.1",
-    "express": "^4.13.4",
-    "helmet": "^1.1.0",
-    "lodash": "^2.4.1",
-    "memory-cache": "0.1.4"
+    "async": "^2.0.1",
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
+    "helmet": "^2.2.0",
+    "lodash": "^4.16.2",
+    "memory-cache": "^0.1.6"
   },
   "devDependencies": {
-    "mocha": "1.13.0",
-    "nodemon": "^1.8.1"
+    "mocha": "3.1.0",
+    "nodemon": "^1.10.2"
   },
   "engines": {
-    "node": ">=4.2.6"
+    "node": ">=4.6.0"
   }
 }

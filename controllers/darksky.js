@@ -9,35 +9,35 @@ var c = require('../config').config;  // App configuration
 
 this.getForecast = function(locations, callback) {
     
-    // Builds a function that handles the request to Forecast.io API. 
+    // Builds a function that handles the request to Dark Sky API. 
     function addReq(loc) {
 
         // The actual function to return. 
         return function(callback) { 
             
-            // Define options for HTTP request to Forecast.io API.
+            // Define options for HTTP request to Dark Sky API.
             var options = { 
-                host: 'api.forecast.io', 
+                host: 'api.darksky.net', 
                 path: '/forecast/<%=key%>/<%=lat%>,<%=lon%>?exclude=minutely,hourly,daily,flags'
             };
-            options.path = encodeURI(_.template(options.path)({'key':c.forecastKey, 'lat':loc.latitude, 'lon':loc.longitude}));
+            options.path = encodeURI(_.template(options.path)({'key':c.darkskyKey, 'lat':loc.latitude, 'lon':loc.longitude}));
 
             // Check to see if we already have this result in cache
             // Using node-cache: https://github.com/ptarjan/node-cache
             var data = cache.get(options.path);  // Using the URL path as a key, check if cached response already exists. 
             if (data) {
-                callback(null, data);  // We already have a cached response for this request, use it instead of hitting the Forecast.io API again. 
+                callback(null, data);  // We already have a cached response for this request, use it instead of hitting the Dark Sky API again. 
             } else {
-                // No cached response exists, hit the Forecast.io API. 
+                // No cached response exists, hit the Dark Sky API. 
                 var json = '';  // String to build up API response
                 https.get(options, function(res) { 
                     
-                    // Handler for each chunk of data in the response from the Forecast.io API
+                    // Handler for each chunk of data in the response from the Dark Sky API
                     res.on('data', function (chunk) { 
                         json += chunk;  // Append this chunk
                     });
                     
-                    // Handler once the request to the Forecast.io API is complete. 
+                    // Handler once the request to the Dark Sky API is complete. 
                     res.on('end', function() { 
                         var data = JSON.parse(json);  // Turn the string into an object. 
                         cache.put(options.path, data, c.cacheDuration);  // Put this response in cache in case we need it later. 
@@ -54,26 +54,26 @@ this.getForecast = function(locations, callback) {
     }  // END addReq(). 
     
     
-    var reqQueue = [];  // Array of Forecast.io API requests. 
+    var reqQueue = [];  // Array of Dark Sky API requests. 
     for (var ii=0; ii<locations.length; ii++) {
         reqQueue.push(addReq(locations[ii]));
     }
     
-    // Make series of requests to Forecast.io API.
+    // Make series of requests to Dark Sky API.
     // Order is important, we need to match order in array of locations. 
     // Using async library: https://github.com/caolan/async
     async.series(reqQueue, function(err, results) {
-        // Results received from the series of Forecast.io API requests.
+        // Results received from the series of Dark Sky API requests.
         
         if (err) {
             callback(err, results);
         } else if (results.length != locations.length) {
-            callback('The number of Forecast.io results does not match the number of requests.', results);
+            callback('The number of Dark Sky results does not match the number of requests.', results);
         }
 
         // Populate location object(s)
         for (var ii=0; ii<results.length; ii++) {
-            var currWeather = results[ii];
+            var currWeather = results[ii]; 
             locations[ii].weather.conditions = currWeather.currently.summary;
             locations[ii].weather.icon = currWeather.currently.icon;
             // locations[ii].weather.iconURL = currWeather.currently.icon_url;
@@ -84,11 +84,11 @@ this.getForecast = function(locations, callback) {
             locations[ii].weather.windMPH = currWeather.currently.windSpeed;
             locations[ii].weather.windDirection = currWeather.currently.windBearing + ' degrees';
             // locations[ii].weather.windDescription = currWeather.wind_string;
-            locations[ii].weather.url = 'http://forecast.io/#/' + currWeather.latitude + ',' + currWeather.longitude;
-            locations[ii].weather.dataProvider = 'forecast.io';
-            locations[ii].weather.dataProviderUrl = 'https://developer.forecast.io/';
+            locations[ii].weather.url = 'http://darksky.net/' + currWeather.latitude + ',' + currWeather.longitude;
+            locations[ii].weather.dataProvider = 'Powered by Dark Sky';
+            locations[ii].weather.dataProviderUrl = 'https://darksky.net/poweredby/';
             
-            // Using timezone offset data from Forecast.io
+            // Using timezone offset data from Dark Sky
             locations[ii].timeZone.offsetMS = convertOffsetToMS(currWeather.offset + '');
             locations[ii].timeZone.offsetHours = (locations[ii].timeZone.offsetMS / (1000 * 60 * 60)) % 24;
             // locations[ii].timeZone.standardName = currWeather.local_tz_long;
