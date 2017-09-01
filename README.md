@@ -58,7 +58,7 @@ Details include location (latitude, longitude, country, state, etc), time zone, 
 	}
 
 ## Tests
-Look in the `test` folder for a simple [Mocha](http://visionmedia.github.io/mocha/)-powered test suite. 
+Look in the `test` folder for a simple [Mocha](http://mochajs.org/)-powered test suite. 
 Tests using HTML and Node.js are available. 
 All tests require the API to be running on your local machine. 
 
